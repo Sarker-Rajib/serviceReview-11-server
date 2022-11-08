@@ -20,10 +20,17 @@ const run = async () => {
         const reviewCollection = client.db("servise11").collection("reviews");
 
         app.get('/reviews', async (req, res) => {
-            const query = {};
-            const cursor = reviewCollection.find(query);
+            let query = {};
+            const serviceId = req.query.serviceId;
+            if (serviceId) {
+                query = {
+                    serviceId: serviceId
+                }
+            }
 
+            const cursor = reviewCollection.find(query);
             const results = await cursor.toArray();
+
             res.send(results);
         })
 
