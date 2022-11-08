@@ -23,7 +23,14 @@ const run = async () => {
             const query = {};
             const cursor = reviewCollection.find(query);
 
-            const results = await cursor.limit(3).toArray();
+            const results = await cursor.toArray();
+            res.send(results);
+        })
+
+        app.post('/reviews', async (req, res) => {
+            const review = req.body;
+
+            const results = await reviewCollection.insertOne(review);
             res.send(results);
         })
 
