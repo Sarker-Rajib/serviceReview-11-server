@@ -22,9 +22,14 @@ const run = async () => {
         app.get('/reviews', async (req, res) => {
             let query = {};
             const serviceId = req.query.serviceId;
+            const qEmail = req.query.email;
             if (serviceId) {
                 query = {
                     serviceId: serviceId
+                }
+            } else if (qEmail) {
+                query = {
+                    email: qEmail
                 }
             }
 
