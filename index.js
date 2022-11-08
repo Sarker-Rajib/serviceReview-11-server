@@ -17,6 +17,15 @@ const run = async () => {
 
     try {
         const ServiceCollection = client.db("servise11").collection("services");
+        const reviewCollection = client.db("servise11").collection("reviews");
+
+        app.get('/reviews', async (req, res) => {
+            const query = {};
+            const cursor = reviewCollection.find(query);
+
+            const results = await cursor.limit(3).toArray();
+            res.send(results);
+        })
 
         app.get('/services3', async (req, res) => {
             const query = {};
