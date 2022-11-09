@@ -19,6 +19,29 @@ const run = async () => {
         const ServiceCollection = client.db("servise11").collection("services");
         const reviewCollection = client.db("servise11").collection("reviews");
 
+        app.get('/services3', async (req, res) => {
+            const query = {};
+            const cursor = ServiceCollection.find(query);
+
+            const results = await cursor.limit(3).toArray();
+            res.send(results);
+        })
+
+        app.get('/services', async (req, res) => {
+            const query = {};
+            const cursor = ServiceCollection.find(query);
+
+            const results = await cursor.toArray();
+            res.send(results);
+        })
+
+        app.get('/services/:id', async (req, res) => {
+            const id = req.params.id;
+            const query = { _id: ObjectId(id) }
+            const service = await ServiceCollection.findOne(query);
+            res.send(service);
+        })
+
         app.get('/reviews', async (req, res) => {
             let query = {};
             const serviceId = req.query.serviceId;
@@ -46,27 +69,14 @@ const run = async () => {
             res.send(results);
         })
 
-        app.get('/services3', async (req, res) => {
-            const query = {};
-            const cursor = ServiceCollection.find(query);
-
-            const results = await cursor.limit(3).toArray();
-            res.send(results);
-        })
-
-        app.get('/services', async (req, res) => {
-            const query = {};
-            const cursor = ServiceCollection.find(query);
-
-            const results = await cursor.toArray();
-            res.send(results);
-        })
-
-        app.get('/services/:id', async (req, res) => {
+        app.delete('/reviews/:id', async (req, res) => {
             const id = req.params.id;
+            // console.log(id);
             const query = { _id: ObjectId(id) }
-            const service = await ServiceCollection.findOne(query);
-            res.send(service);
+            // console.log(query);
+
+            const result = await reviewCollection.deleteOne(query);
+            res.send(result);
         })
 
     }
