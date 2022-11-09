@@ -27,6 +27,13 @@ const run = async () => {
             res.send(results);
         })
 
+        app.post('/services', async (req, res) => {
+            const review = req.body;
+
+            const results = await ServiceCollection.insertOne(review);
+            res.send(results);
+        })
+
         app.get('/services', async (req, res) => {
             const query = {};
             const cursor = ServiceCollection.find(query);
