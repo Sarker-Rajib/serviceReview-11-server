@@ -8,7 +8,6 @@ require('dotenv').config();
 app.use(cors());
 app.use(express.json());
 
-
 const uri = `mongodb+srv://${process.env.DB_USER}:${process.env.DB_PASSWORD}@cluster0.yw8lqr5.mongodb.net/?retryWrites=true&w=majority`;
 const client = new MongoClient(uri, { useNewUrlParser: true, useUnifiedTopology: true, serverApi: ServerApiVersion.v1 });
 
@@ -68,7 +67,7 @@ const run = async () => {
                 }
             }
 
-            const cursor = reviewCollection.find(query);
+            const cursor = reviewCollection.find(query).sort({commentedAt: -1});
             const results = await cursor.toArray();
 
             res.send(results);
